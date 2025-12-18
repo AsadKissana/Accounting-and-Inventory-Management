@@ -1,1 +1,62 @@
-node_modules
+# Node dependencies
+node_modules/
+
+# Build output
+/dist/
+
+# Vite cache
+.vite/
+
+# Environment variables (local)
+.env.local
+.env.*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+*.log
+
+# TypeScript
+*.tsbuildinfo
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Misc caches
+.cache/
+.parcel-cache/
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Debug history
+.node_repl_history
+
+# Storybook build
+storybook-static/
+
+# Cypress
+cypress/videos/
+cypress/screenshots/
+
+# Optional: local overrides / workspace files
+*.code-workspace
+
+# Ignore sensitive or private keys
+*.pem
+*.key
+
+# End of .gitignore

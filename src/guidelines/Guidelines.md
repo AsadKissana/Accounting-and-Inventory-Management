@@ -1,61 +1,103 @@
-**Add your own guidelines here**
-<!--
+# Project Guidelines 📘
 
-System Guidelines
+This document contains concise rules and conventions for developing the Accounting & Inventory Management frontend.
+Follow these guidelines to keep the codebase consistent, accessible, and maintainable.
 
-Use this file to provide the AI with rules and guidelines you want it to follow.
-This template outlines a few examples of things you can add. You can add your own sections and format it to suit your needs
+---
 
-TIP: More context isn't always better. It can confuse the LLM. Try and add the most important rules you need
+## Quick links
+- Project README: ../../README.md
+- Dev: `npm install && npm run dev`
 
-# General guidelines
+---
 
-Any general rules you want the AI to follow.
-For example:
+## 1. Git, branches & PRs ✅
+- Branch naming: `feature/<short-desc>`, `fix/<short-desc>`, `chore/<short-desc>`.
+- Commits: follow Conventional Commits (`feat:`, `fix:`, `chore:`, `refactor:`, `docs:`, `test:`).
+- PR description must include: what changed, why, screenshots (if UI), linked issue, and testing steps.
+- Run: linting, type-check, and any available tests before requesting review.
 
-* Only use absolute positioning when necessary. Opt for responsive and well structured layouts that use flexbox and grid by default
-* Refactor code as you go to keep code clean
-* Keep file sizes small and put helper functions and components in their own files.
+---
 
---------------
+## 2. Code style & TypeScript ✨
+- Use TypeScript for all new files. Avoid `any`; prefer well-typed interfaces and utility types.
+- Prefer named exports for components and utilities (e.g., `export function Foo(){}` or `export { Foo }`).
+- Use clear, descriptive names for props and interfaces (e.g., `InvoiceListProps`).
+- Keep components small and focused; split complicated logic into hooks or helpers.
 
-# Design system guidelines
-Rules for how the AI should make generations look like your company's design system
+---
 
-Additionally, if you select a design system to use in the prompt box, you can reference
-your design system's components, tokens, variables and components.
-For example:
+## 3. Components & file structure 🔧
+- Location: `src/components/<feature>/...` or `src/components/ui/...` for shared UI primitives.
+- File name: Prefer `PascalCase` for component files (e.g., `SaleInvoice.tsx`). Utility modules may use `kebab` or `camelCase`.
+- Exports: export components as named exports. If an index/barrel file exists, add new exports there.
+- Variants & CSS: use `cva` for reusable variant styles and `cn` for conditional classNames.
 
-* Use a base font-size of 14px
-* Date formats should always be in the format “Jun 10”
-* The bottom toolbar should only ever have a maximum of 4 items
-* Never use the floating action button with the bottom toolbar
-* Chips should always come in sets of 3 or more
-* Don't use a dropdown if there are 2 or fewer options
+Short checklist when adding a component:
+1. Create `src/components/<area>/MyComponent.tsx`.
+2. Add types in the same file or `types.ts` if large.
+3. Add a short README or example usage in comments.
+4. Add to export barrel if appropriate.
 
-You can also create sub sections and add more specific details
-For example:
+---
 
+## 4. Styling & Tailwind ⚡
+- Use Tailwind utility classes for styles.
+- Keep class lists readable: extract long variant sets into `cva` or small helper functions.
+- Keep CSS in `src/styles` for global styles only; avoid large inline styles where Tailwind utilities or classes suffice.
 
-## Button
-The Button component is a fundamental interactive element in our design system, designed to trigger actions or navigate
-users through the application. It provides visual feedback and clear affordances to enhance user experience.
+---
 
-### Usage
-Buttons should be used for important actions that users need to take, such as form submissions, confirming choices,
-or initiating processes. They communicate interactivity and should have clear, action-oriented labels.
+## 5. Accessibility ♿
+- Use semantic HTML (buttons, forms, labels) and add ARIA attributes for custom widgets.
+- Ensure keyboard focus is visible and interactive elements are reachable by keyboard.
+- When adding visual changes, include accessibility checks (screen reader labels, color contrast).
 
-### Variants
-* Primary Button
-  * Purpose : Used for the main action in a section or page
-  * Visual Style : Bold, filled with the primary brand color
-  * Usage : One primary button per section to guide users toward the most important action
-* Secondary Button
-  * Purpose : Used for alternative or supporting actions
-  * Visual Style : Outlined with the primary color, transparent background
-  * Usage : Can appear alongside a primary button for less important actions
-* Tertiary Button
-  * Purpose : Used for the least important actions
-  * Visual Style : Text-only with no border, using primary color
-  * Usage : For actions that should be available but not emphasized
--->
+---
+
+## 6. Dates & Currency (Accounting rules) 💱
+- Store dates in ISO 8601 (`YYYY-MM-DD` / full ISO) in APIs and internal models.
+- Display dates using localized formats via Intl APIs. Example:
+
+```ts
+const formatted = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(value));
+```
+
+- Use `Intl.NumberFormat` for currency display; prefer to receive a currency code and format accordingly:
+
+```ts
+const money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+```
+
+---
+
+## 7. Testing & validation ✅
+- Add unit tests for business logic and key components.
+- Validate forms with `react-hook-form` and Zod (or similar) for schema validation when possible.
+
+---
+
+## 8. Performance & best practices 🚀
+- Lazy load large modules (React.lazy / dynamic import).
+- For long lists, use virtualization or pagination.
+- Avoid heavy synchronous computations in render.
+
+---
+
+## 9. Linting & formatting 🧹
+- Use Prettier and ESLint with recommended TypeScript/React rules (add configs if not present).
+- Ensure `npm run build` completes without type errors.
+
+---
+
+## 10. PR checklist (summary) ✅
+- [ ] Branch name and commit messages follow conventions
+- [ ] Types pass and no `any` introduced
+- [ ] Linting/formatting OK
+- [ ] Accessibility checks applied for UI changes
+- [ ] Tests added/updated
+- [ ] PR description + screenshots and testing steps included
+
+---
+
+If you'd like, I can: add ESLint/Prettier config, add a `CONTRIBUTING.md` file, or create a small PR template for this repository. 👋
