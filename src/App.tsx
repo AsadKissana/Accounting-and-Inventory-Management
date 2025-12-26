@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Dashboard } from './components/Dashboard/Dashboard';
 import { ChartOfAccounts } from './components/accounts/ChartOfAccounts';
 import { AccountOpening } from './components/accounts/AccountOpening';
 import { VoucherEntry } from './components/accounts/VoucherEntry';
@@ -45,10 +46,8 @@ type MenuItem = {
 // of categories, so placing them first keeps them above other modules.
 
 const menuItems: MenuItem[] = [
-  // Admin and Director menus appear above all modules
-  { id: 'director-dashboard', label: 'Director Dashboard', icon: BarChart3, category: 'directors' },
-  { id: 'admin-dashboard', label: 'Admin Dashboard', icon: Users, category: 'admin' },
-  { id: 'main-dashboard', label: 'Main Dashboard', icon: BarChart3, category: 'admin' },
+  // 
+  { id: 'dashboard', label: 'Dashboard', icon: Users, category: 'directors' },
 
   { id: 'chart-of-accounts', label: 'Chart of Accounts', icon: BookOpen, category: 'accounts' },
   { id: 'account-opening', label: 'Account Opening', icon: DollarSign, category: 'accounts' },
@@ -88,6 +87,7 @@ export default function App() {
 
   const renderActiveView = () => {
     switch (activeView) {
+      case 'dashboard': return <Dashboard />;
       case 'chart-of-accounts': return <ChartOfAccounts />;
       case 'account-opening': return <AccountOpening />;
       case 'voucher-entry': return <VoucherEntry />;
