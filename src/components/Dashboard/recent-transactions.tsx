@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "./ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 
 const transactions = [
   { name: "Alex Johnson", email: "alex@example.com", amount: "+$1,999.00", initials: "AJ" },

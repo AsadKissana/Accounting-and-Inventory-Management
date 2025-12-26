@@ -1,9 +1,9 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
-import { DashboardHeader } from "@/components/dashboard-header";
-import { StatsGrid } from "@/components/stats-grid";
-import { InventoryOverview } from "@/components/inventory-overview";
-import { RecentTransactions } from "@/components/recent-transactions";
+import { AppSidebar } from "@/components/ui/app-sidebar";
+import { DashboardHeader } from "@/components/Dashboard/dashboard-header";
+import { StatsGrid } from "@/components/Dashboard/stats-grid";
+import { InventoryOverview } from "@/components/Dashboard/inventory-overview";
+import { RecentTransactions } from "@/components/Dashboard/recent-transactions";
 
 export function Dashboard() {
   return (

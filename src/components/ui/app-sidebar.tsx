@@ -1,4 +1,4 @@
-import { useSidebar } from "./ui/sidebar";
+import { useSidebar } from "./sidebar";
 
 export function AppSidebar() {
   const { open } = useSidebar();

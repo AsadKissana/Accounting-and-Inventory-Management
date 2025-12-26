@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardTitle, CardContent } from "./ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { TrendingUp, TrendingDown, Package, DollarSign } from "lucide-react";
 
 const stats = [
