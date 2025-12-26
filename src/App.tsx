@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChartOfAccounts } from './components/accounts/ChartOfAccounts';
 import { AccountOpening } from './components/accounts/AccountOpening';
 import { VoucherEntry } from './components/accounts/VoucherEntry';
@@ -29,29 +29,41 @@ import {
   TrendingUp,
   Receipt,
   Menu,
-  X
+  X,
+  Users
 } from 'lucide-react';
 
 type MenuItem = {
   id: string;
   label: string;
   icon: any;
-  category: 'accounts' | 'inventory' | 'sales';
+  category: 'directors' | 'admin' | 'accounts' | 'inventory' | 'sales';
 };
 
+// Ensure top-level menus (Directors, Admin) appear first by placing them
+// at the top of this list. The reduce below preserves the insertion order
+// of categories, so placing them first keeps them above other modules.
+
 const menuItems: MenuItem[] = [
+  // Admin and Director menus appear above all modules
+  { id: 'director-dashboard', label: 'Director Dashboard', icon: BarChart3, category: 'directors' },
+  { id: 'admin-dashboard', label: 'Admin Dashboard', icon: Users, category: 'admin' },
+  { id: 'main-dashboard', label: 'Main Dashboard', icon: BarChart3, category: 'admin' },
+
   { id: 'chart-of-accounts', label: 'Chart of Accounts', icon: BookOpen, category: 'accounts' },
   { id: 'account-opening', label: 'Account Opening', icon: DollarSign, category: 'accounts' },
   { id: 'voucher-entry', label: 'Voucher Entry', icon: FileText, category: 'accounts' },
   { id: 'voucher-preview', label: 'Voucher Preview', icon: Eye, category: 'accounts' },
   { id: 'ledger-report', label: 'Ledger Report', icon: BarChart3, category: 'accounts' },
   { id: 'trial-balance', label: 'Trial Balance', icon: Scale, category: 'accounts' },
+  { id: 'accounts-dashboard', label: 'Accounts Dashboard', icon: FileText, category: 'accounts' },
   { id: 'purchase-order', label: 'Purchase Order Entry', icon: ShoppingCart, category: 'inventory' },
   { id: 'po-printing', label: 'PO Printing', icon: Printer, category: 'inventory' },
   { id: 'grn-entry', label: 'GRN Entry', icon: Package, category: 'inventory' },
   { id: 'grn-preview', label: 'GRN Preview', icon: Eye, category: 'inventory' },
   { id: 'stock-inquiry', label: 'Stock Inquiry', icon: Warehouse, category: 'inventory' },
   { id: 'stock-ledger', label: 'Stock Ledger', icon: BarChart3, category: 'inventory' },
+  { id: 'inventory-dashboard', label: 'Inventory Dashboard', icon: Warehouse, category: 'inventory' },
   { id: 'sale-order', label: 'Sale Order', icon: TrendingUp, category: 'sales' },
   { id: 'so-printing', label: 'SO Printing', icon: Printer, category: 'sales' },
   { id: 'sale-invoice', label: 'Sale Invoice', icon: Receipt, category: 'sales' },
@@ -61,6 +73,18 @@ const menuItems: MenuItem[] = [
 export default function App() {
   const [activeView, setActiveView] = useState('chart-of-accounts');
   const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  useEffect(() => {
+    // support quick links via location.hash (e.g. #sale-invoice)
+    const applyHash = () => {
+      const h = window.location.hash?.replace('#','');
+      if (h) setActiveView(h);
+    };
+    applyHash();
+    window.addEventListener('hashchange', applyHash);
+    return () => window.removeEventListener('hashchange', applyHash);
+  }, []);
+
 
   const renderActiveView = () => {
     switch (activeView) {
@@ -86,6 +110,8 @@ export default function App() {
 
   const getCategoryLabel = (category: string) => {
     switch (category) {
+      case 'directors': return 'Directors';
+      case 'admin': return 'Admin';
       case 'accounts': return 'Accounts';
       case 'inventory': return 'Inventory';
       case 'sales': return 'Sales';
